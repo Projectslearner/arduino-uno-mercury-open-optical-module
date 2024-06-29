@@ -1,34 +1,26 @@
 /*
-    Project name : Mercury open optical module
-    Modified Date: 09-06-2024
+    Project name : Arduino Uno Mercury Open Optical Module
+    Modified Date: 29-06-2024
     Code by : Projectslearner
     Website : https://projectslearner.com/learn/arduino-uno-mercury-open-optical-module
 */
 
-// Define the LED and switch pins
-const int led_pin = 13;
-const int switch_pin = 3;
+// Pin connected to the Mercury open optical module's signal output
+const int sensorPin = 2;
 
 void setup() {
-  pinMode(led_pin, OUTPUT);
-  pinMode(switch_pin, INPUT);
-  
-  // Initialize serial communication
-  Serial.begin(9600);
+  Serial.begin(9600);  // Initialize serial communication
+  pinMode(sensorPin, INPUT_PULLUP);  // Set sensor pin as input with internal pull-up resistor
 }
 
 void loop() {
-  // Read the state of the mercury tilt switch
-  int switchState = digitalRead(switch_pin);
-  
-  // Check if the switch is tilted
-  if (switchState == HIGH) {
-    digitalWrite(led_pin, HIGH); // Turn on LED
-    Serial.println("Switch tilted - LED ON");
+  int sensorValue = digitalRead(sensorPin);  // Read sensor state
+
+  if (sensorValue == LOW) {
+    Serial.println("Module is open");
   } else {
-    digitalWrite(led_pin, LOW); // Turn off LED
-    Serial.println("Switch not tilted - LED OFF");
+    Serial.println("Module is closed");
   }
-  
-  delay(100); // Delay for stability and to reduce Serial Monitor spam
+
+  delay(500);  // Delay for readability
 }
